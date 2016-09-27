@@ -8,9 +8,11 @@ import re
 import sys
 import argparse
 import yelp
+import json
+import pickle
+from time import sleep
 from yelp.client import Client
 from yelp.oauth1_authenticator import Oauth1Authenticator
-import json
 from collections import namedtuple
 
 def parse_cmd(args):
@@ -43,8 +45,10 @@ def get_top_result(client, city, restaurant):
     results = client.search(city, **params)
     # TODO handle bad queries / no results?
     return results
-    
-    
+
+def wait(secs):
+    print('Sleeping for {} seconds'.format(str(secs)), file=sys.stderr)
+    sleep(secs)
 
 def main(argv=None): 
     args = parse_cmd(argv[1:])
@@ -56,6 +60,10 @@ def main(argv=None):
         for restaurant in rl:
             if not restaurant.strip() == '':
                 result.list.append(get_top_result(client, args.city, restaurant))
+                wait(1)
+    # Write out to file, pickled for now
+    # TODO maybe more readable? eg yaml/json
+    pickle.dump(result_list, args.outfile)
 
 if __name__ == '__main__':
     main(sys.argv)
