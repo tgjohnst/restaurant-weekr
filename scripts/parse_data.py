@@ -18,17 +18,18 @@ def parse_cmd(args):
     return optS
 
 def extract_results(res):
-    # TODO check if result is empty
-    if len(res.businesses) > 0:
-        res = res.businesses[0]
-        d = {}
-        d['Name'] = res.name #TODO image too?
-        d['Category'] = res.categories[0].name
-        d['Neighborhood'] = res.location.neighborhoods[0]
-        d['Rating'] = res.rating #TODO make numeric sortable AND image. Num reviews? link to yelp?
-        d['Phone'] = res.display_phone # TODO link to phone:res.phone
-    else:
-        print('No results found for query') # TODO check when fetching instead?
+    d = {}
+    d['Name'] = res.name #TODO image too?
+    d['Category'] = res.categories[0].name
+    d['Neighborhood'] = res.location.neighborhoods[0]
+    d['Rating'] = res.rating #TODO make numeric sortable AND image. Num reviews? link to yelp?
+    d['Phone'] = res.display_phone # TODO link to phone:res.phone
+
+def extract_location(res):
+    rname = r.name
+    rloc = r.loc
+    # TODO
+    return ________
 
 def main(argv=None): 
     args = parse_cmd(argv[1:])
@@ -36,8 +37,12 @@ def main(argv=None):
     with open(args.infile, 'rb') as infile:
         restaurants = pickle.load(infile)
     table_list = []
+    loc_list = []
     for r in restaurants:
-        table_list.append(extract_results(r))
+        if len(r.businesses) > 0:
+            r = r.businesses[0]        
+            table_list.append(extract_results(r))
+            loc_list.append(extract_location(r))
 
 if __name__ == '__main__':
     main(sys.argv)
