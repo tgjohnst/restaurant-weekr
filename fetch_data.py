@@ -63,7 +63,8 @@ def main(argv=None):
                 wait(1)
     # Write out to file, pickled for now
     # TODO maybe more readable? eg yaml/json
-    pickle.dump(result_list, args.outfile)
+    with open(args.outfile, 'wb') as outfile:
+        pickle.dump(result_list, args.outfile)
 
 if __name__ == '__main__':
     main(sys.argv)
