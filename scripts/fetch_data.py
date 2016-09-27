@@ -3,17 +3,13 @@
 @author: Timothy Johnstone
 """
 
-import os
-import re
 import sys
 import argparse
 import yelp
-import json
 import pickle
 from time import sleep
 from yelp.client import Client
 from yelp.oauth1_authenticator import Oauth1Authenticator
-from collections import namedtuple
 
 def parse_cmd(args):
     """ Parses user-supplied command line arguments """
@@ -22,7 +18,6 @@ def parse_cmd(args):
     parser.add_argument('-r', '--restaurant-list', type=str, required=True)
     parser.add_argument('-o', '--outfile', type=str, required=True)
     parser.add_argument('-c', '--city', type=str, required=True)
-#    parser.add_argument('-n', '--nmer_size', type=int, default=7)  # configurable nmer size for searching
     optS = parser.parse_args(args)
     return optS
 
