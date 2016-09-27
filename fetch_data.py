@@ -59,7 +59,7 @@ def main(argv=None):
     with open(args.restaurant_list) as rl:
         for restaurant in rl:
             if not restaurant.strip() == '':
-                result.list.append(get_top_result(client, args.city, restaurant))
+                result_list.append(get_top_result(client, args.city, restaurant))
                 wait(1)
     # Write out to file, pickled for now
     # TODO maybe more readable? eg yaml/json
