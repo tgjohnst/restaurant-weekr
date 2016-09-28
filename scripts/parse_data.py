@@ -21,13 +21,13 @@ def parse_cmd(args):
 def extract_results(res):
     d = {}
     d['Name'] = res.name #TODO image too?
-    d['Category'] = res.categories[0].name
-    d['Neighborhood'] = res.location.neighborhoods[0]
+    d['Category'] = res.categories[0].name if res.categories else None
+    d['Neighborhood'] = res.location.neighborhoods[0] if res.location.neighborhoods else None
     d['Rating'] = res.rating #TODO make numeric sortable AND image. Num reviews? link to yelp?
     d['Phone'] = res.display_phone # TODO link to phone:res.phone
     return d
 
-def extract_location(res):
+def extract_location(r):
     rname = r.name
     rlat = r.location.coordinate.latitude
     rlong = r.location.coordinate.longitude
@@ -45,7 +45,7 @@ def main(argv=None):
             r = r.businesses[0]        
             table_list.append(extract_results(r))
             loc_list.append(extract_location(r))
-    with open(args.json_outfile, 'rt') as outjson:
+    with open(args.json_outfile, 'wt') as outjson:
         json.dump(table_list, outjson)
 
 if __name__ == '__main__':
